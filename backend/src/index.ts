@@ -1,10 +1,27 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import 'reflect-metadata';
+import { container } from "tsyringe";
+import bodyParser from 'body-parser';
 import logger from './utils/logger';
+import connect from './utils/connect';
+import TaskController from './controllers/TaskController';
 
+// environment 
 const app = express();
 dotenv.config();
 
-app.listen(process.env.port, () => {
+//middleware
+app.use(bodyParser.json());
+
+//dependency container
+const taskController = container.resolve(TaskController);
+
+//routes
+app.use('/api/tasks', taskController.routes());
+
+
+app.listen(process.env.port, async () => {
     logger.info(`server is running at http://localhost:${process.env.port}`);
+    await connect();
 });
