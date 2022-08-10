@@ -12,8 +12,7 @@ export default class tasksService {
 
     async create(task: any): Promise<Boolean> {
         try {
-            await this.tasksRepository.save(task);
-            return true;
+            return await this.tasksRepository.save(task);
         } catch (error) {
             logger.error(error);
             return false;

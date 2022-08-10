@@ -20,16 +20,14 @@ export default class TaskController {
                 res.sendStatus(201);
             } catch (error) {
                 logger.error(error);
+                res.sendStatus(400);
             }
         })
 
         this.router.get('/:name', async (req: Request, res: Response) => { 
-            try {
-                await this.tasksService.getByTitle(req.body);
-                res.sendStatus(200);
-            } catch (error) {
-                logger.error(error);
-            }
+            const task = await this.tasksService.getByTitle(req.body.title);
+            if (task?.length === 0) res.sendStatus(404);
+            res.send(task);
         })
 
         return this.router;
