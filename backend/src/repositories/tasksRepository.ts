@@ -13,9 +13,9 @@ export default class tasksRepository {
         }
     }
 
-    async getByTitle(title: String) {
+    async getByOwnerId(ownerId: String) {
         try {
-            const task: any[] = await Task.find({title: title});
+            const task: any[] = await Task.find({ownerId: ownerId});
             return task;
         } catch (error) {
             logger.error(error);

@@ -14,18 +14,18 @@ export default class TaskController {
     }
 
     routes() {
-        this.router.post('/:name', async (req: Request, res: Response) => { 
+        this.router.post('/', async (req: Request, res: Response) => { 
             try {
-                await this.tasksService.create(req.body);
-                res.sendStatus(201);
+                if (await this.tasksService.create(req.body) === true) res.sendStatus(201);
+                res.sendStatus(400);
             } catch (error) {
                 logger.error(error);
                 res.sendStatus(400);
             }
         })
 
-        this.router.get('/:name', async (req: Request, res: Response) => { 
-            const task = await this.tasksService.getByTitle(req.body.title);
+        this.router.get('/:ownerId', async (req: Request, res: Response) => { 
+            const task = await this.tasksService.getByOwnerId(req.params.ownerId);
             if (task?.length === 0) res.sendStatus(404);
             res.send(task);
         })

@@ -6,7 +6,7 @@ const taskSchema = new mongoose.Schema({
     isCompleted: Boolean,
     createdAt: Date,
     updatedAt: Date,
-    ownerId: mongoose.SchemaTypes.ObjectId
+    ownerId: String
 });
 
 export default mongoose.model("Task", taskSchema);
