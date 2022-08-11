@@ -16,18 +16,28 @@ export default class TaskController {
     routes() {
         this.router.post('/', async (req: Request, res: Response) => { 
             try {
-                if (await this.tasksService.create(req.body) === true) res.sendStatus(201);
-                res.sendStatus(400);
+                if (await this.tasksService.create(req.body) === true) return res.sendStatus(201);
+                return res.sendStatus(400);
             } catch (error) {
                 logger.error(error);
-                res.sendStatus(400);
+                return res.sendStatus(400);
+            }
+        })
+
+        this.router.delete('/:id', async (req: Request, res: Response) => {
+            try {
+                if(await this.tasksService.delete(req.params.id) === true) return res.sendStatus(200);
+                return res.sendStatus(400);
+            } catch (error) {
+                logger.error(error);
+                return res.sendStatus(400);
             }
         })
 
         this.router.get('/:ownerId', async (req: Request, res: Response) => { 
             const task = await this.tasksService.getByOwnerId(req.params.ownerId);
-            if (task?.length === 0) res.sendStatus(404);
-            res.send(task);
+            if (task?.length === 0) return res.sendStatus(404);
+            return res.send(task);
         })
 
         return this.router;

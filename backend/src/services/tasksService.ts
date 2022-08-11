@@ -19,6 +19,15 @@ export default class tasksService {
         }
     }
 
+    async delete(id: any): Promise<Boolean> {
+        try {
+            return await this.tasksRepository.delete(id);
+        } catch (error) {
+            logger.error(error);
+            return false;
+        }
+    }
+
     async getByOwnerId(ownerId: String) {
         try {
             return await this.tasksRepository.getByOwnerId(ownerId);

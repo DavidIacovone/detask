@@ -13,6 +13,16 @@ export default class tasksRepository {
         }
     }
 
+    async delete(id: any): Promise<Boolean> {
+        try {
+            await Task.findByIdAndDelete(id);
+            return true;
+        } catch (error) {
+            logger.error(error);
+            return false;
+        }
+    }
+
     async getByOwnerId(ownerId: String) {
         try {
             const task: any[] = await Task.find({ownerId: ownerId});
