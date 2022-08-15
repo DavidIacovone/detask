@@ -40,6 +40,16 @@ export default class TaskController {
             return res.send(task);
         })
 
+        this.router.patch('/:id', async (req: Request, res: Response) => {
+            try {
+                if (await this.tasksService.update(req.body, req.params.id)) return res.send(200);
+                return res.send(400);
+            } catch (error) {
+                logger.error(error);
+                return res.send(400);
+            }
+        })
+
         return this.router;
     }
 

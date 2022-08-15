@@ -35,4 +35,13 @@ export default class tasksService {
             logger.error(error);
         }
     }
+
+    async update(task: any, id: any): Promise<Boolean> {
+        try {
+            return await this.tasksRepository.update(task, id);
+        } catch (error) {
+            logger.error(error);
+            return false;
+        }
+    }
 }
