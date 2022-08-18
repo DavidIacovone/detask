@@ -6,6 +6,8 @@ import bodyParser from 'body-parser';
 import logger from './utils/logger';
 import connect from './utils/connect';
 import TaskController from './controllers/TaskController';
+import { taskSchema } from './schemas/taskSchema';
+import { validateRequest } from './middlewares/validationMiddleware';
 
 // environment 
 const app = express();
@@ -18,7 +20,7 @@ app.use(bodyParser.json());
 const taskController = container.resolve(TaskController);
 
 //routes
-app.use('/api/tasks', taskController.routes());
+app.use('/api/tasks', taskSchema, validateRequest, taskController.routes());
 
 
 app.listen(process.env.port, async () => {
