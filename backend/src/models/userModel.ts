@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -14,5 +15,26 @@ const userSchema = new mongoose.Schema({
         required: true
     },
 }, { timestamps: true });
+
+userSchema.pre('save', async function (next) {
+    const user = this;
+    const secret = process.env.saltFactor as unknown as number;
+
+    if (!user.isModified('password')) return next();
+
+    const salt = await bcrypt.genSalt(secret);
+
+    const hash = await bcrypt.hashSync(user.password, salt);
+
+    user.password = hash;
+
+    return next();
+});
+
+userSchema.methods.comparePassword = async function(candidatePassword: string): Promise<Boolean> {
+    const user = this;
+
+    return bcrypt.compare(candidatePassword, this.password);
+}
 
 export default mongoose.model("User", userSchema);
