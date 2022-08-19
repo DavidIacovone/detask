@@ -1,10 +1,11 @@
 import { Router, Request, Response } from 'express';
 import { autoInjectable } from 'tsyringe';
+import ControllerInterface from './ControllerInterface';
 import tasksService from '../services/tasksService';
 import logger from '../utils/logger';
 
 @autoInjectable()
-export default class TaskController {
+export default class TasksController implements ControllerInterface {
     router: Router;
     tasksService: tasksService;
 

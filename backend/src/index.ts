@@ -5,9 +5,10 @@ import { container } from "tsyringe";
 import bodyParser from 'body-parser';
 import logger from './utils/logger';
 import connect from './utils/connect';
-import TaskController from './controllers/TaskController';
+import TasksController from './controllers/TaskController';
 import { taskSchema } from './schemas/taskSchema';
 import { validateRequest } from './middlewares/validationMiddleware';
+import UsersController from './controllers/UsersController';
 
 // environment 
 const app = express();
@@ -17,10 +18,12 @@ dotenv.config();
 app.use(bodyParser.json());
 
 //dependency container
-const taskController = container.resolve(TaskController);
+const tasksController = container.resolve(TasksController);
+const usersController = container.resolve(UsersController);
 
 //routes
-app.use('/api/tasks', taskSchema, validateRequest, taskController.routes());
+app.use('/api/tasks', taskSchema, validateRequest, tasksController.routes());
+app.use('/api/users', usersController.routes());
 
 
 app.listen(process.env.port, async () => {
