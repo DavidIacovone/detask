@@ -36,7 +36,7 @@ export default class TasksController implements ControllerInterface {
         })
 
         this.router.get('/:ownerId', async (req: Request, res: Response) => { 
-            const task = await this.tasksService.getByOwnerId(req.params.ownerId);
+            const task = await this.tasksService.get(req.params.ownerId);
             if (task?.length === 0) return res.sendStatus(404);
             return res.send(task);
         })

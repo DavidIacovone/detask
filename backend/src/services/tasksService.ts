@@ -28,7 +28,7 @@ export default class tasksService {
         }
     }
 
-    async getByOwnerId(ownerId: String) {
+    async get(ownerId: String) {
         try {
             return await this.tasksRepository.getByOwnerId(ownerId);
         } catch (error) {
