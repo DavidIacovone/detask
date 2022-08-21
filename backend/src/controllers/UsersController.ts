@@ -18,15 +18,20 @@ export default class UsersController implements ControllerInterface {
         this.router.get('/:id', async (req: Request, res: Response) => {
             try {
                 const user = await this.usersService.get(req.params.id);
-                if (!user === null) return res.send(user);
-                return res.sendStatus(404);
+                if (user === null) return res.sendStatus(404);
+                return res.send(user);
             } catch (error) {
                 logger.error(error);
             }
         });
 
-        this.router.post('/', (req: Request, res: Response) => {
-
+        this.router.post('/', async (req: Request, res: Response) => {
+            try {
+                if (await this.usersService.create(req.body) === true) return res.sendStatus(201);
+                return res.sendStatus(400);
+            } catch (error) {
+                logger.error(error);
+            }
         });
 
         this.router.delete('/:id', (req: Request, res: Response) => {

@@ -1,5 +1,6 @@
 import User from '../models/userModel';
 import logger from '../utils/logger';
+import mongoose from 'mongoose';
 
 export default class usersRepository {
 
@@ -35,8 +36,7 @@ export default class usersRepository {
 
     async get(id: any) {
         try {
-            const user = await User.findById(id);
-            return user;
+            return await User.findById(id);
         } catch (error) {
             logger.error(error);
             return null;

@@ -18,11 +18,10 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
     const user = this;
-    const secret = process.env.saltFactor as unknown as number;
 
     if (!user.isModified('password')) return next();
 
-    const salt = await bcrypt.genSalt(secret);
+    const salt = await bcrypt.genSalt(10);
 
     const hash = await bcrypt.hashSync(user.password, salt);
 
