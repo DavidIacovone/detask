@@ -30,7 +30,7 @@ export default class tasksService {
 
     async get(ownerId: String) {
         try {
-            return await this.tasksRepository.getByOwnerId(ownerId);
+            return await this.tasksRepository.get(ownerId);
         } catch (error) {
             logger.error(error);
         }

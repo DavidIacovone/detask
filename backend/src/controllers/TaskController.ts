@@ -3,6 +3,8 @@ import { autoInjectable } from 'tsyringe';
 import ControllerInterface from './ControllerInterface';
 import tasksService from '../services/tasksService';
 import logger from '../utils/logger';
+import { taskSchema } from '../schemas/taskSchema';
+import { validateRequest } from '../middlewares/validationMiddleware';
 
 @autoInjectable()
 export default class TasksController implements ControllerInterface {
@@ -15,7 +17,7 @@ export default class TasksController implements ControllerInterface {
     }
 
     routes() {
-        this.router.post('/', async (req: Request, res: Response) => { 
+        this.router.post('/', taskSchema, validateRequest, async (req: Request, res: Response) => { 
             try {
                 if (await this.tasksService.create(req.body) === true) return res.sendStatus(201);
                 return res.sendStatus(400);
@@ -41,13 +43,13 @@ export default class TasksController implements ControllerInterface {
             return res.send(task);
         })
 
-        this.router.patch('/:id', async (req: Request, res: Response) => {
+        this.router.patch('/:id', taskSchema, validateRequest, async (req: Request, res: Response) => {
             try {
-                if (await this.tasksService.update(req.body, req.params.id)) return res.send(200);
-                return res.send(400);
+                if (await this.tasksService.update(req.body, req.params.id)) return res.sendStatus(200);
+                return res.sendStatus(400);
             } catch (error) {
                 logger.error(error);
-                return res.send(400);
+                return res.sendStatus(400);
             }
         })
 

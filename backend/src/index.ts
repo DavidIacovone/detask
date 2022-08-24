@@ -22,7 +22,7 @@ const tasksController = container.resolve(TasksController);
 const usersController = container.resolve(UsersController);
 
 //routes
-app.use('/api/tasks', taskSchema, validateRequest, tasksController.routes());
+app.use('/api/tasks', tasksController.routes());
 app.use('/api/users', usersController.routes());
 
 

@@ -41,4 +41,13 @@ export default class usersRepository {
             return null;
         }
     }
+
+    async getByEmail(email: any) {
+        try {
+            return await User.find({email: email});
+        } catch (error) {
+            logger.error(error);
+            return null;
+        }
+    }
 }

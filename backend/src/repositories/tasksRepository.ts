@@ -23,7 +23,7 @@ export default class tasksRepository {
         }
     }
 
-    async getByOwnerId(ownerId: String) {
+    async get(ownerId: String) {
         try {
             const task: any[] = await Task.find({ownerId: ownerId});
             return task;
@@ -34,7 +34,7 @@ export default class tasksRepository {
 
     async update(task: any, id: any): Promise<Boolean> {
         try {
-            await Task.findByIdAndUpdate(id, task);
+            await Task.updateOne({_id: id}, task);
             return true;
         } catch (error) {
             logger.error(error);
