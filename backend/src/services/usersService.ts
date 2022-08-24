@@ -20,8 +20,25 @@ export default class usersService {
 
     async create(user: any): Promise<Boolean> {
         try {
-            await this.usersRepository.save(user);
-            return true;
+            return await this.usersRepository.save(user);
+        } catch (error) {
+            logger.error(error);
+            return false;
+        }
+    }
+
+    async delete(id: any): Promise<Boolean> {
+        try {
+            return await this.usersRepository.delete(id);
+        } catch (error) {
+            logger.error(error);
+            return false;
+        }
+    }
+
+    async update(user: any, id: any): Promise<Boolean> {
+        try {
+            return await this.usersRepository.update(user, id);
         } catch (error) {
             logger.error(error);
             return false;

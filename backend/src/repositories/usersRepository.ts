@@ -1,6 +1,5 @@
 import User from '../models/userModel';
 import logger from '../utils/logger';
-import mongoose from 'mongoose';
 
 export default class usersRepository {
 

@@ -34,12 +34,23 @@ export default class UsersController implements ControllerInterface {
             }
         });
 
-        this.router.delete('/:id', (req: Request, res: Response) => {
+        this.router.delete('/:id', async (req: Request, res: Response) => {
+            try {
+                if (await this.usersService.delete(req.params.id) === true) return res.sendStatus(200);
+                return res.sendStatus(400);
+            } catch (error) {
+                logger.error(error);
+            }
 
         });
 
-        this.router.patch('/:id', (req: Request, res: Response) => {
-
+        this.router.patch('/:id', async (req: Request, res: Response) => {
+            try {
+                if (await this.usersService.update(req.body, req.params.id) === true) return res.sendStatus(200);
+                return res.sendStatus(400);
+            } catch (error) {
+                logger.error(error);
+            }
         });
 
         return this.router;
